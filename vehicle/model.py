@@ -5,6 +5,8 @@ class Vehicle:
             
         self.mass = mass
         self.velocity = 0.0
+        self.position = 0.0
+        self.acceleration = 0.0
 
         self.drag_coefficient = drag_coefficient
         self.frontal_area = frontal_area
@@ -31,8 +33,10 @@ class Vehicle:
         
         net_force = force - drag_force - rolling_force
 
-        acceleration = net_force/self.mass
+        self.acceleration = net_force/self.mass
         
-        self.velocity = max(0, self.velocity + acceleration * dt)
+        self.velocity = max(0, self.velocity + self.acceleration * dt)
+        
+        self.position += self.velocity * dt
         
         return self.velocity 

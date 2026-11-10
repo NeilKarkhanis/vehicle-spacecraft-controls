@@ -45,3 +45,35 @@ def test_invalid_time_steps():
 
     with pytest.raises(ValueError):
         car.update(4000.0, -0.1)
+
+def test_ideal_vehicle_position():
+    car = Vehicle(1600.0)
+
+    for i in range(100):
+        car.update(4000.0, 0.1)
+
+    assert car.position == pytest.approx(126.25)
+
+def test_acceleration_value():
+    car = Vehicle(1600.0)
+
+    car.update(4000.0, 0.1)
+
+    assert car.acceleration == pytest.approx(2.5)
+
+def test_resistance_reduces_acceleration():
+    ideal_car = Vehicle(1600.0)
+
+    realistic_car = Vehicle(
+        1600.0,
+        drag_coefficient=0.28,
+        rolling_resistance_coefficient=0.01
+    )
+
+    ideal_car.velocity = 20.0
+    realistic_car.velocity = 20.0
+
+    ideal_car.update(4000.0, 0.1)
+    realistic_car.update(4000.0, 0.1)
+
+    assert realistic_car.acceleration < ideal_car.acceleration
