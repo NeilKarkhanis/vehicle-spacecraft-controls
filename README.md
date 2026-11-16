@@ -123,6 +123,27 @@ python -m scripts.run_vehicle
 
 The program prints the final velocities and positions of the ideal and realistic vehicles and saves the simulation plots.
 
+## C++17 Vehicle Simulation
+
+From the project root, use CMake 3.16 or newer, a C++17 compiler, and Python 3:
+
+```bash
+cmake -S . -B build
+cmake --build build
+./build/run_vehicle_cpp
+(cd build && ctest --output-on-failure)
+```
+
+The executable prints CSV with the final velocity and position for each scenario.
+The CTest parity check runs the Python vehicle model for the same 3,000 steps
+and compares the four values using relative and absolute tolerances of `1e-12`.
+The check uses only the Python standard library and the vehicle model.
+
+| Scenario | Python final velocity (m/s) | Python final position (m) |
+| --- | ---: | ---: |
+| Ideal | 74.99999999999993 | 1125.3749999999714 |
+| Realistic | 61.88628867815665 | 1000.2031160986438 |
+
 ## Automated Verification
 
 The vehicle dynamics model is tested using PyTest.
@@ -135,7 +156,7 @@ The verification tests cover:
 - Invalid vehicle mass
 - Invalid simulation time steps
 
-Additional tests cover position and acceleration calculations and resistance effects once implemented.
+Additional tests cover ideal position and acceleration and the effect of resistance on acceleration.
 
 Run the tests using:
 
@@ -167,9 +188,7 @@ vehicle-spacecraft-controls/
 The next phases will expand the project into a more complete controls and verification platform.
 
 **C++17 and Linux Integration**
-- Implement vehicle dynamics in C++17
-- Configure builds using CMake
-- Compare C++ and Python simulation results
+- Verify the CMake build and C++/Python parity on Linux
 
 **Feedback Control**
 - Develop a PID speed controller
