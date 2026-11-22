@@ -65,7 +65,7 @@ void run_scenario(std::string_view name, Vehicle vehicle){
     for(int step = 0; step < steps; ++step){
         vehicle.update(force,dt);
     }
-    std::cout << name <<','<<vehicle.velocity()<<vehicle.position()<<'\n';
+    std::cout << name <<','<<vehicle.velocity() << ',' <<vehicle.position()<<'\n';
 }
 
 int main() {
