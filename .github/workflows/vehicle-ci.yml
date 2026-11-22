@@ -1,0 +1,23 @@
+name: Vehicle simulation CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  linux-parity:
+    runs-on: ubuntu-24.04
+    
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v6
+      
+      - name: Configure CMake
+        run: cmake -S . -B build
+
+      - name: Build the C++ simulation
+        run: cmake --build build
+
+      - name: Check C++ and Python parity
+        run: ctest --test-dir build --output-on-failure
